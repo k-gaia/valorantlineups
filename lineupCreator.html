@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+
+    <head>  
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+        <link rel="stylesheet" href="./leaflet/leaflet.css" />
+        <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet"> 
+        <script src="./leaflet/leaflet.js"></script>
+
+        <link rel="stylesheet" href='styles.css'>      
+
+    </head>
+
+
+
+    <body>
+
+        <div id='map'></div>
+
+        <label for="show-menu" class="show-menu">Show Menu</label>
+        <ul id="mapmenu">
+        <li>
+            <a href="#">Maps</a>
+            <ul class="hidden">
+                <li><button onclick="changeMap('Bind')">Bind</button></li>
+                <li><button onclick="changeMap('Haven')">Haven</button></li>
+                <li><button onclick="changeMap('Split')">Split</button></li>
+                <li><button onclick="changeMap('Ascent')">Ascent</button></li>
+            </ul>
+        </li>
+    </ul>
+
+        <div id='agentInfoDiv'>
+            <img id='agentImg' src="./img/champIcons/Breach_icon.webp" width="100px" style="position: absolute; top: 4.5%; left: 20%; border: solid 5px black; background-color: rgba(0, 0, 0, 0.5); z-index: 400;" draggable="false">
+            <p id='agentText' style="position: absolute; top: 14%; left: 19.9%; font-family: 'Josefin Sans', sans-serif; font-size: 32px; color: white; z-index: 400;">Breach</p>
+        </div>  
+
+        <button onclick="capturePins()" style="position: absolute; bottom: 0; right: 10vw; z-index: 400;"> Capture Pin </button>
+        <button onclick="enableDraw()" style="position: absolute; bottom: 0px; right: 5vw; z-index: 400;"></button> Draw Pins </button>
+        <button onclick="clearPins(), clearChildPins()" style="position: absolute; bottom: 0px; right: 15vw; z-index: 400;"> Clear All Pins </button>
+        <button onclick="clearChildPins()" style="position: absolute; bottom: 0px; right: 20.4vw; z-index: 400;"> Clear Child Pins </button>
+        <select id="champs" onchange="updateAbilities()" style="position: absolute; bottom: 0px; left: 5%; z-index: 400;"></select>
+        <select id="abilities" style="position: absolute; bottom: 0px; left: 10%; z-index: 400;"></select>
+        <select id='pinType' style="position: absolute; bottom: 0px; left: 0%; z-index: 400;">
+        
+            <option>Main Pin</option>
+            <option>Child Pin</option>
+        
+        </select>
+        
+    
+    <script src="./pins/bindPins.js"></script>
+    <script src="scripts.js"></script> 
+
+    <script>
+
+        var image = L.imageOverlay('./img/maps/Bind_Top_Down_View_up.png', bounds).addTo(map);
+        var drawingPins = false; 
+
+        // enable draw function to flip boolean
+        function enableDraw(){
+            if (drawingPins == false) {
+
+                drawingPins = true;
+
+            }
+
+            else {
+
+                drawingPins = false;
+
+            }
+        }
+
+        function updateAbilities(){
+
+            // get drop downs
+            var champDrop = document.getElementById('champs');
+            var abilityDrop = document.getElementById('abilities');
+
+            // clear abilities from previous champ
+            for (i = 0; i < 4; i++){
+
+                abilityDrop.remove(abilityDrop[i]); 
+            }
+
+            // add abilities for champs in drop downs
+            for (i = 0; i < 4; i++){
+
+                var option = document.createElement("option");
+                option.text = abilities[champDrop.selectedIndex][i];
+                abilityDrop.add(option); 
+            }
+        }
+
+        // change map function (called each time map is clicked)
+        function changeMap(mapRadio) {
+
+            map.removeLayer(image);
+
+            // the map image
+            image = L.imageOverlay('./img/maps/' + mapRadio + '_Top_Down_View_up.png', bounds).addTo(map);
+          
+        }
+
+        function captureChildPins(){
+            var childFeatures = [];
+            childPinGroup.eachLayer( function(layer) {
+                if(layer instanceof L.Marker) {
+                if(map.getBounds().contains(layer.getLatLng())) {
+                    childFeatures.push("[" + layer.getLatLng().lat, layer.getLatLng().lng, "'" + prompt("Enter Lineup Name") + "'", "'" + prompt("Enter Video URL") + "']");
+                    }
+                }
+            });
+
+            return childFeatures;
+
+        }
+
+
+        function capturePins(){
+
+            var features = [];
+
+            // get pins name, and add to pinToSave output 
+            const pinName = prompt("Enter pin name: ");
+
+            mainPinGroup.eachLayer( function(layer) {
+                if(layer instanceof L.Marker) {
+                if(map.getBounds().contains(layer.getLatLng())) {
+                    features.push(layer.getLatLng().lat, layer.getLatLng().lng, 
+                    layer._icon.src.replace("file:///C:/Users/kevjn/Desktop/valorantlineups/img/abilityIcons/", '').replace(".webp", ''),
+                    captureChildPins()
+                );
+                }
+                }
+            });
+
+            //return features;
+            console.log(features);
+            alert("['" + document.getElementById('champs').value + "', '"
+            + document.getElementById('abilities').value + "', '"
+            + features[0] + "', '"
+            + features[1] + "', '"
+            + pinName + "', "
+            + "[" + features[3] + "]"
+            +  
+            
+            
+            
+            "]");
+
+            
+        }
+
+
+        function clearPins(){
+
+            mainPinGroup.clearLayers();
+            childPinGroup.clearLayers();
+
+        }
+
+        function clearChildPins(){
+
+            childPinGroup.clearLayers();
+
+        }
+
+
+        // on load function -> sets up on click events for pin creation
+        window.onload = function () {
+
+            // get champ drop down selector
+
+            if (document.getElementById('champs')){
+
+                // get champ dropdown
+                var champDrop = document.getElementById('champs');
+
+                // iterate through champ array and add to drop down
+                for (i = 0; i < this.champs.length; i++){
+                    var option = document.createElement("option");
+                    option.text = champs[i];
+                    champDrop.add(option); 
+                }  
+            }
+        }
+
+    </script>      
+
+    </body>
+    
+</html>

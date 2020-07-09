@@ -1,23 +1,256 @@
 <!DOCTYPE html>
 <html>
 
-    <head>  
-        <link rel="stylesheet" href="./leaflet/leaflet.css" />
-        <script src="./leaflet/leaflet.js"></script>
+<head>
+
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet"> 
+
+    <style>
+
+        body {
+
+            overflow: hidden;
+
+        }
         
+        #cover {
+                position: absolute;
+                width: 420px;
+                height: 600px;
+                margin: 0 auto;
+                top: 25%;
+                left: 48.5%;
+                /* bring your own prefixes */
+                
+            }
 
-        <link rel="stylesheet" href='styles.css'>
+            #cover > a img {
+                float: left;
+                box-shadow: 0 0 16px 16px white inset;
+                width: 65%;
+                margin: 1.66%;
+                filter: grayscale(50%);
+                transform: translate(-50%, 0%);
+                
+            }
 
-    </head>
+            #cover a img:hover{
+
+                filter: grayscale(0%);
+
+            }
+
+        #champBanner{
+            display: none;
+        }
+
+        #logo{
+
+            position: absolute; 
+            width: 75%;
+            left: 50%;
+            transform: translate(-50%, 0%);
+
+        }
 
 
+        @media only screen and (min-width: 600px) {
+            /* For Tablet: */           
+            #cover {
+                position: absolute;
+                top: 40%;
+                left: 27%;
+                width: 680px;
+                height: 680px;
+                margin: 0 auto;
+            }
 
-    <body>
+            #cover > a img {
+                float: left;
+                width: 45%;
+                margin: 1.66%;
+                filter: grayscale(50%);
+                box-shadow: 0 0 8px 8px white inset;
+            }
 
-        <div id='map'></div>
+            #cover a img:hover{
 
-    </body>
+                filter: grayscale(0%);
 
-    <script src="scripts.js"></script> 
+            }
 
+                
+            #logo{
+
+                position: absolute; 
+                width: 50%;
+                left: 25.5%;
+                top: 18.5%;
+                transform: translate(0%, 0%);
+
+            }
+        
+            #champBanner{
+                
+                display: none;
+                opacity: 1;
+                animation: 1s ease-out 0s 1 slideInFromLeft;
+
+            }
+        }
+
+        @media only screen and (min-width: 1025px) {
+            /* For Desktop: */
+
+            #cover {
+                position: absolute;
+                left: 20%;
+                top: 35%;
+                width: 800px;
+                height: 800px;
+                margin: 0 auto;
+            }
+
+            #cover > a img {
+                float: left;
+                border-radius: 3%;
+                width: 45%;
+                margin: 1.66%;
+                filter: grayscale(50%);
+                
+            }
+
+            #cover a img:hover{
+
+                filter: grayscale(0%);
+
+            }
+
+            
+        #logo{
+
+            position: absolute; 
+            width: 25%;
+            left: 18.5%;
+            top: 7.5%;
+            transform: translate(0%, 0%);
+
+        }
+    
+        #champBanner{
+            
+            display: inline;
+            opacity: 1;
+            animation: 1s ease-out 0s 1 slideInFromLeft;
+
+            }
+        }
+
+        /* Animation */
+        @keyframes slideInFromLeft {
+            0% {
+                transform: translateX(100%);
+                opacity: 0%;
+            }
+            100% {
+                transform: translateX(0);
+                opacity: 100%;
+            }
+        }
+
+                /* Style the links inside the sidenav */
+        #mySidenav a {
+        position: absolute; /* Position them relative to the browser window */
+        left: -80px; /* Position them outside of the screen */
+        transition: 0.3s; /* Add transition on hover */
+        padding: 15px; /* 15px padding */
+        width: 100px; /* Set a specific width */
+        text-decoration: none; /* Remove underline */
+        font-family: 'Source Sans Pro', sans-serif;
+        font-size: 20px; /* Increase font size */
+        color: white; /* White text color */
+        border-radius: 0 5px 5px 0; /* Rounded corners on the top right and bottom right side */
+        }
+
+        #mySidenav a:hover {
+        left: 0; /* On mouse-over, make the elements appear as they should */
+        }
+
+        /* The about link: 20px from the top with a green background */
+        #about {
+        top: 425px;
+        background-color: #FF4654;
+        }
+
+        #about:hover {
+        top: 425px;
+        background-color: #ff6f7b;
+        }
+
+        #create {
+        top: 605px;
+        background-color: #FF4654; /* Blue */
+        }
+
+        #create:hover {
+        top: 605px;
+        background-color: #ff6f7b;
+        }
+
+        #graphs {
+        top: 545px;
+        background-color: #FF4654; /* Red */
+        }
+
+        #graphs:hover {
+        top: 545px;
+        background-color: #ff6f7b;
+        }
+
+        #contact {
+        top: 485px;
+        background-color: #FF4654 /* Light Black */
+        }
+
+        #contact:hover {
+        top: 485px;
+        background-color: #ff6f7b;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <img id='logo' src='img/logo/vlineups.svg'>
+
+    <img id='champBanner' src='' style="float: right;">
+
+    <div id="cover">
+        <a href='./bind.html'><img src="img/maps/thumbs/Bind_Map.png"></a>
+        <a href='./haven.html'><img src="img/maps/thumbs/Haven_Map.png"></a>
+        <a href='./split.html'><img src="img/maps/thumbs/Split_Map.png" style="-webkit-box-reflect: below 10px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(20%, transparent) , to(rgba(250, 250, 250, 0.1)));"></a>
+        <a href='./ascent.html'><img src="img/maps/thumbs/Ascent_Map.png" style="-webkit-box-reflect: below 10px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(20%, transparent) , to(rgba(250, 250, 250, 0.1)));"></a>
+    </div>
+
+    <div id="mySidenav" class="sidenav">
+        <a href="https://github.com/k-gaia/valorantlineups" id="about">About</a>
+        <a href="#" id="contact">Contact</a>
+        <a href="graphs.html" id="graphs">Graphs</a>
+        <a href="lineupCreator.html" id="create">Create</a>
+    </div> 
+    
+    <script>
+
+        var champs = ['Breach', 'Brimstone', 'Cypher', 'Jett', 'Omen', 'Phoenix', 'Raze', 'Reyna', 'Sage', 'Sova', 'Viper'];
+
+        document.getElementById('champBanner').src = './img/champBanners/' + champs[Math.floor(Math.random() * champs.length)] + '_artwork.webp';
+
+        console.log(document.getElementById('champBanner').src);
+
+    </script>
+
+</body>
 </html>

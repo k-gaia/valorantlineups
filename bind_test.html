@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+    <head>  
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+        <link rel="stylesheet" href="./leaflet/leaflet.css" />
+        <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet"> 
+        <script src="./leaflet/leaflet.js"></script>
+        
+
+        <link rel="stylesheet" href='styles.css'>
+        
+
+    </head>
+
+
+
+    <body>
+
+        <div id='map'></div>
+            
+        <script src="./pins/bindPins.js"></script>
+        <script src="scripts.js"></script> 
+        <script> 
+
+        
+            var image = L.imageOverlay('./img/maps/Bind_Top_Down_View_up.png', bounds).addTo(map);
+            var image2 = L.imageOverlay('./img/maps/callouts/Bind_Top_Down_View_calls.png', bounds).addTo(map);
+            image2.getElement().className += ' fade-out';
+
+            function calloutEnabler(){
+                calloutsImage = image2.getElement();
+                if (calloutState == true){
+                    calloutState = false;
+                    calloutsImage.className = 'leaflet-image-layer leaflet-zoom-animated fade-out';
+
+                }
+                else {
+                    
+                    calloutsImage.className = 'leaflet-image-layer leaflet-zoom-animated fade-in';
+                    calloutState = true;
+                }
+            }
+
+
+        </script>
+
+        <label for="show-menu" class="show-menu">Show Menu</label>
+        <input type="checkbox" id="show-menu" role="button">
+        
+            <ul id="menu">
+
+            <li>
+                <button href="#">Abilities</button>
+                <ul class="hidden">
+                    <li id='ability1'><button href="#" onclick="changeAbility('Aftershock')">Aftershock</button></li>
+                    <li id='ability2'><button href="#" onclick="changeAbility('Flashpoint')">Flashpoint</button></li>
+                    <li id='ability3'><button href="#" onclick="changeAbility('Fault_Line')">Fault Line</button></li>
+                    <li id='ability4'><button href="#" onclick="changeAbility('Rolling_Thunder')">Rolling Thunder</button></li>
+                </ul>
+            </li>
+
+            <li>
+                <a href="#">Agents</a>
+                <ul class="hidden">
+                    <li><button href="#" onclick="changeChamp('Breach')">Breach</button></li>
+                    <li><button href="#" onclick="changeChamp('Brimstone')">Brimstone</button></li>
+                    <li><button href="#" onclick="changeChamp('Cypher')">Cypher</button></li>
+                    <li><button href="#" onclick="changeChamp('Jett')">Jett</button></li>
+                    <li><button href="#" onclick="changeChamp('Omen')">Omen</button></li>
+                    <li><button href="#" onclick="changeChamp('Phoenix')">Phoenix</button></li>
+                    <li><button href="#" onclick="changeChamp('Raze')">Raze</button></li>
+                    <li><button href="#" onclick="changeChamp('Reyna')">Reyna</button></li>
+                    <li><button href="#" onclick="changeChamp('Sage')">Sage</button></li>
+                    <li><button href="#" onclick="changeChamp('Sova')">Sova</button></li>
+                    <li><button href="#" onclick="changeChamp('Viper')">Viper</button></li>
+                </ul>
+            </li>
+
+        </ul>
+
+        <img id='mapInfoImg' src="./img/maps/names/Bind.svg" width="15%">
+
+        <div id='agentInfoDiv'>
+            <img id='agentImg' src="./img/champIcons/Breach_icon.webp" width="100px" style="position: absolute; top: 4.5%; left: 20%; border: solid 5px black; background-color: rgba(0, 0, 0, 0.5); z-index: 400;" draggable="false" >
+            <p id='agentText' style="position: absolute; top: 14%; left: 19.9%; font-family: 'Josefin Sans', sans-serif; font-size: 32px; color: white; z-index: 400;">Breach</p>
+        </div>  
+
+        <audio id='audioPlayer' src=""></audio>
+
+        <label class="toggle-control">
+            <input type="checkbox" onclick="calloutEnabler()">
+            <span class="control"></span>
+            <pre>Callouts</pre>
+        </label>
+
+        <label class="toggle-control" style="left: 122px; bottom: 12px;">
+            <input type="checkbox" onclick="calloutEnabler()">
+            <span class="control"></span>
+            <pre>Barriers</pre>
+        </label>
+
+        <script>
+
+            var circle = L.circle([51.508, -0.11], {
+                color: 'red',
+                fillColor: '#f03',
+                fillOpacity: 0.5,
+                radius: 500
+            }).addTo(map);
+
+            var rectangle = L.rectangle([[25, 25], [50, 150]]).addTo(map);
+
+        </script>
+
+        
+
+    </body>
+    
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js"></script>
+
+    <script src="pins.js"></script>
+
+    <style>
+
+        #chartWrapper{
+
+            border: 5px solid black;
+            width: 800px;
+            height: 800px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            /* bring your own prefixes */
+            transform: translate(-50%, -50%);
+
+
+        }
+
+    </style>
+
+</head>
+
+
+
+<body>
+
+    <div id='chartWrapper'>
+    <canvas id="myChart" width="100%" height="100%"></canvas>
+
+    <script>
+
+    function getPinCount(mapToCount){
+
+        // ['Breach', 'Brimstone', 'Cypher', 'Jett', 'Omen', 'Phoenix', 'Raze', 'Reyna', 'Sage', 'Sova', 'Viper'];
+
+        breachCount = 0;
+        brimstoneCount = 0;
+        cypherCount = 0;
+        jettCount = 0;
+        omenCount = 0;
+        phoenixCount = 0;
+        razeCount = 0;
+        reynaCount = 0;
+        sageCount = 0;
+        sovaCount = 0;
+        viperCount = 0;
+
+        for (i = 0; i < pins.length; i++){
+
+            if (pins[i][1] == 'Breach'){
+
+                breachCount++
+
+            }
+
+            if (pins[i][1] == 'Brimstone'){
+
+                brimstoneCount++
+
+            }
+            
+            if (pins[i][1] == 'Cypher'){
+
+                cypherCount++
+
+            }
+
+            if (pins[i][1] == 'Jett'){
+
+                jettCount++
+
+            }
+
+            if (pins[i][1] == 'Omen'){
+
+                omenCount++
+
+            }
+
+            if (pins[i][1] == 'Phoenx'){
+
+                phoenixCount++
+
+            }
+
+            if (pins[i][1] == 'Raze'){
+
+                razeCount++
+
+            }
+
+            if (pins[i][1] == 'Reyna'){
+
+                reynaCount++
+
+            }
+
+            if (pins[i][1] == 'Sage'){
+
+                sageCount++
+
+            }
+
+            if (pins[i][1] == 'Sova'){
+
+                sovaCount++
+
+            }
+
+            if (pins[i][1] == 'Viper'){
+
+                viperCount++
+
+            }
+
+        }
+
+
+        pinCount = [breachCount, brimstoneCount, cypherCount, jettCount, omenCount, phoenixCount, razeCount, reynaCount, sageCount, sovaCount, viperCount];
+
+        return pinCount;
+
+    }
+
+    var ctx = document.getElementById('myChart').getContext('2d');
+
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Breach', 'Brimstone', 'Cypher', 'Jett', 'Omen', 'Phoenix', 'Raze', 'Reyna', 'Sage', 'Sova', 'Viper'],
+            datasets: [{
+                label: '# of Linueps',
+                data: getPinCount(),
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+    </script>
+    </div>
+
+
+</body>
+
+
+
+</html>

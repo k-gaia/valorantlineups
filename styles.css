@@ -1,6 +1,388 @@
-#map { 
-                
-    width: 800px; 
-    height: 800px;
-
+body {
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
 }
+html, body, #map {
+    height: 100%;
+    width: 100vw;
+}
+
+.leaflet-container {
+    background-color: #0F1923;
+}
+
+#mapInfoImg{
+
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 400;
+    animation: 1s ease-out 0s 1 slideUp;
+    
+
+}            
+
+/* Animation */
+@keyframes slideUp {
+0% {
+    transform: translateY(100%);
+    opacity: 0%;
+}
+100% {
+    transform: translateY(0);
+    opacity: 100%;
+}
+}
+
+
+/*Strip the ul of padding and list styling*/
+ul {
+    list-style-type:none;
+    margin:0;
+    padding:0;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    z-index: 400;
+    
+}
+/*Create a horizontal list with spacing*/
+li {
+    display:inline-block;
+    float: left;
+    margin-right: 20px;
+    left: auto;
+}
+/*Style for menu links*/
+li a {
+    display:block;
+    min-width:160px;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    font-family: "Source Sans Pro", sans-serif;
+    color: #fff;
+    background: #FF4654;
+    text-decoration: none;
+    left: auto;
+}
+
+li button {
+  display:block;
+  min-width:160px;
+  height: 50px;
+  text-align: center;
+  line-height: 50px;
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: 16px;
+  color: #fff;
+  background: #FF4654;
+  text-decoration: none;
+  left: auto;
+  background-image: none;
+  border: none;
+}
+
+/*Hover state for top level links*/
+li:hover a {
+    background: #ff6773;
+    left: auto;
+}
+
+/*Hover state for top level links*/
+li:hover button {
+  background: #ff6f7b;
+  left: auto;
+}
+
+/*Style for dropdown links*/
+li:hover ul a {
+    background: #f3f3f3;
+    color: #2f3036;
+    height: 50px;
+    line-height: 50px;
+    bottom: 0;
+    left: auto;
+}
+
+li:hover ul button {
+  background: #f3f3f3;
+  min-width:160px;
+  color: #2f3036;
+  height: 50px;
+  line-height: 50px;
+  bottom: 0;
+  left: auto;
+  transform: translate(56%, 0%);
+}
+
+/*Hover state for dropdown links*/
+li:hover ul a:hover {
+    background: rgb(255, 190, 177);
+    color: #fff;
+    left: auto;
+}
+
+/*Hover state for dropdown links*/
+li:hover ul button:hover {
+  background: #ff6f7b;
+  color: #fff;
+  left: auto;
+}
+
+/*Hide dropdown links until they are needed*/
+li ul {
+    display: none;
+    left: auto;
+}
+
+/*Make dropdown links vertical*/
+li ul li {
+    display: block;
+    float: none;
+    left: auto;
+}
+/*Prevent text wrapping*/
+li ul li a {
+    width: auto;
+    min-width: 120px;
+    padding: 0 20px;
+    left: auto;
+}
+
+/*Prevent text wrapping*/
+li ul li button {
+  width: auto;
+  min-width: 120px;
+  padding: 0 20px;
+  left: auto;
+}
+
+/*Display the dropdown on hover*/
+ul li a:hover + .hidden, .hidden:hover {
+    display: block;
+    bottom:50px;
+    left: auto;
+}
+
+/*Display the dropdown on hover*/
+ul li button:hover + .hidden, .hidden:hover {
+  display: block;
+  bottom:50px;
+  left: auto;
+}
+
+/*Style 'show menu' label button and hide it by default*/
+.show-menu {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    text-decoration: none;
+    color: #fff;
+    background: #19c589;
+    text-align: center;
+    padding: 10px 0;
+    display: none;
+}
+/*Hide checkbox*/
+input[type=checkbox]{
+    display: none;
+}
+/*Show menu when invisible checkbox is checked*/
+input[type=checkbox]:checked ~ #menu{
+    display: block;
+}
+/*Responsive Styles*/
+@media screen and (max-width : 760px){
+    /*Make dropdown links appear inline*/
+    ul {
+        position: static;
+        display: none;
+    }
+    /*Create vertical spacing*/
+    li {
+        margin-bottom: 1px;
+    }
+    /*Make all menu links full width*/
+    ul li, li a {
+        width: 100%;
+    }
+    /*Display 'show menu' link*/
+    .show-menu {
+        display:block;
+    }
+}
+
+
+.fade-in {
+    animation: fadeIn 0.5s;
+    animation-fill-mode: forwards;
+    -webkit-animation: fadeIn ease 0.5s;
+    -moz-animation: fadeIn ease 0.5s;;
+    -o-animation: fadeIn ease 0.5s;
+    -ms-animation: fadeIn ease 0.5s;
+    animation-fill-mode: forwards;
+  }@keyframes fadeIn {
+    0% {
+      opacity:0;
+    }
+    100% {
+      opacity:1;
+    }
+  }
+  
+  @-moz-keyframes fadeIn {
+    0% {
+      opacity:0;
+    }
+    100% {
+      opacity:1;
+    }
+  }
+  
+  @-webkit-keyframes fadeIn {
+    0% {
+      opacity:0;
+    }
+    100% {
+      opacity:1;
+    }
+  }
+  
+  @-o-keyframes fadeIn {
+    0% {
+      opacity:0;
+    }
+    100% {
+      opacity:1;
+    }
+  }
+  
+  @-ms-keyframes fadeIn {
+    0% {
+      opacity:0;
+    }
+    100% {
+      opacity:1;
+  }
+  }
+  
+  .fade-out {
+    animation: fadeOut 0.5s;
+    animation-fill-mode: forwards;
+    -webkit-animation: fadeOut ease 0.5s;
+    -moz-animation: fadeOut ease 0.5s;
+    -o-animation: fadeOut ease 0.5s;
+    -ms-animation: fadeOut ease 0.5s;
+    animation-fill-mode: forwards;
+
+  }@keyframes fadeOut {
+    0% {
+      opacity:1;
+    }
+    100% {
+      opacity:0;
+    }
+  }
+  
+  @-moz-keyframes fadeOut {
+    0% {
+      opacity:1;
+    }
+    100% {
+      opacity:0;
+    }
+  }
+  
+  @-webkit-keyframes fadeOut {
+    0% {
+      opacity:1;
+    }
+    100% {
+      opacity:0;
+    }
+  }
+  
+  @-o-keyframes fadeOut {
+    0% {
+      opacity:1;
+    }
+    100% {
+      opacity:0;
+    }
+  }
+  
+  @-ms-keyframes fadeOut {
+    0% {
+      opacity:1;
+    }
+    100% {
+      opacity:0;
+  }
+  }
+ 
+  .toggle-control {
+    display: block;
+    position: relative;
+    padding-left: 50px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    z-index: 400;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+  }
+  .toggle-control input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+  .toggle-control input:checked ~ .control {
+    background-color: #FF4654;
+  }
+  .toggle-control input:checked ~ .control:after {
+    left: 30px;
+  }
+  .toggle-control .control {
+    position: absolute;
+    bottom: 5px;
+    left: 62vw;
+    height: 25px;
+    width: 50px;
+    border-radius: 12.5px;
+    background-color: darkgray;
+    -webkit-transition: background-color 0.15s ease-in;
+    transition: background-color 0.15s ease-in;
+  }
+  .toggle-control .control:after {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 5px;
+    width: 15px;
+    height: 15px;
+    border-radius: 12.5px;
+    background: white;
+    -webkit-transition: left 0.15s ease-in;
+    transition: left 0.15s ease-in;
+  }
+
+  .toggle-control pre {
+
+    position: absolute;
+    bottom: 0;
+    font-family: "Source Sans Pro", sans-serif;
+    color: white;
+    transform: translate(1128px, -10px);
+
+  }
+
+ 
+  
+ 
+
+
