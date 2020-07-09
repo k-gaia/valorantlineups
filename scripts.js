@@ -49,7 +49,7 @@ function changeChamp(champSelection){
     // change current champ variable
     champ = champSelection;
 
-    var champAudio = ["./sfx/champLines/" + champ + "/" + champ + "1.wav", "./sfx/champLines/" + champ + "/" + champ + "2.wav", "./sfx/champLines/" + champ + "/" + champ + "3.wav"]
+    var champAudio = ["./sfx/champLines/" + champ.ignoreCase + "/" + champ.ignoreCase + "1.wav", "./sfx/champLines/" + champ.ignoreCase + "/" + champ.ignoreCase + "2.wav", "./sfx/champLines/" + champ.ignoreCase + "/" + champ.ignoreCase + "3.wav"]
 
     // 
     champGet = (element) => element == champ
