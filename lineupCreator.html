@@ -38,7 +38,7 @@
         </div>  
 
         <button onclick="capturePins()" style="position: absolute; bottom: 0; right: 10vw; z-index: 400;"> Capture Pin </button>
-        <button onclick="enableDraw()" style="position: absolute; bottom: 0px; right: 5vw; z-index: 400;"></button> Draw Pins </button>
+        <button onclick="enableDraw()" style="position: absolute; bottom: 0px; right: 5vw; z-index: 400;"> Draw Pins </button>
         <button onclick="clearPins(), clearChildPins()" style="position: absolute; bottom: 0px; right: 15vw; z-index: 400;"> Clear All Pins </button>
         <button onclick="clearChildPins()" style="position: absolute; bottom: 0px; right: 20.4vw; z-index: 400;"> Clear Child Pins </button>
         <select id="champs" onchange="updateAbilities()" style="position: absolute; bottom: 0px; left: 5%; z-index: 400;"></select>
@@ -146,13 +146,8 @@
             + features[1] + "', '"
             + pinName + "', "
             + "[" + features[3] + "]"
-            +  
-            
-            
-            
+            +             
             "]");
-
-            
         }
 
 
@@ -188,6 +183,34 @@
                 }  
             }
         }
+
+        // setup for pin creation
+        map.on('click', 
+        function(e){
+            if (drawingPins){
+                var coord = e.latlng.toString().split(',');
+                var lat = coord[0].split('(');
+                var lng = coord[1].split(')');
+
+                alert("You clicked the map at LAT: " + lat[1] + " and LONG: " + lng[0]);
+
+                if (document.getElementById("pinType").value == "Child Pin"){
+                    newMarker = L.marker(e.latlng, {draggable: true, icon: new LineupIcon({iconUrl: "./img/abilityIcons/pinImg.png" })}).addTo(childPinGroup);
+                }
+                else {
+                    newMarker = L.marker(e.latlng, {draggable: true, icon: new ValorantIcon({iconUrl: "./img/abilityIcons/" + document.getElementById("abilities").value + ".webp" })}).addTo(mainPinGroup);
+                }
+                newMarker.on('dragend', function() {
+                    var coord = String(newMarker.getLatLng()).split(',');
+                    //console.log(coord);
+                    var lat = coord[0].split('(');
+                    //console.log(lat);
+                    var lng = coord[1].split(')');
+                    //console.log(lng);
+                    newMarker.bindPopup("Moved to: " + lat[1] + ", " + lng[0] + ".");
+                });
+            }
+            });
 
     </script>      
 

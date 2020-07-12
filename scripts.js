@@ -11,7 +11,7 @@ var abilities = [
                     ['Incendiary', 'Stim_Beacon', 'Sky_Smoke', 'Orbital_Strike'], 
                     ['Trapwire', 'Cyber_Cage', 'Spycam', 'Neural_Theft'],
                     ['Cloudburst', 'Updraft', 'Tailwind', 'Blade_Storm'],
-                    ['Shrouded_Step', 'Paranoia', 'Dark_Cover', 'From_The_Shadow'],
+                    ['Shrouded_Step', 'Paranoia', 'Dark_Cover', 'From_Shadow'],
                     ['Blaze', 'Curveball', 'Hot_Hands', 'Run_it_Back'],
                     ['Boom_Bot', 'Blast_Pack', 'Paint_Shells', 'Showstopper'],
                     ['Leer', 'Devour', 'Dismiss', 'Empress'],
@@ -20,7 +20,7 @@ var abilities = [
                     ['Snake_Bite', 'Poison_Cloud', 'Toxic_Screen', "Viper's_Pit"]
                 ];
 
-// icon class 
+// ability icon class 
 var ValorantIcon = L.Icon.extend({
     options: {
         iconSize:     [24, 24],
@@ -31,6 +31,7 @@ var ValorantIcon = L.Icon.extend({
     }
 });
 
+// child icon class 
 var LineupIcon = L.Icon.extend({
     options: {
         iconSize:     [8, 8],
@@ -49,9 +50,10 @@ function changeChamp(champSelection){
     // change current champ variable
     champ = champSelection;
 
+    // champ audio array to choose random champ sfx on select
     var champAudio = ["./sfx/champLines/" + champ.toLowerCase() + "/" + champ.toLowerCase() + "1.wav", "./sfx/champLines/" + champ.toLowerCase() + "/" + champ.toLowerCase() + "2.wav", "./sfx/champLines/" + champ.toLowerCase() + "/" + champ.toLowerCase() + "3.wav"]
 
-    // 
+    // create quick function to grab champ choice and format
     champGet = (element) => element == champ
 
     // ability variables taken from champ array
@@ -70,14 +72,14 @@ function changeChamp(champSelection){
     document.getElementById('ability3').innerHTML = "<button href='#' onclick='changeAbility("+ ability3 +")'>" + ability3.replace(/"/g, " ").replace(/_/g, " ") + "</button>"
     document.getElementById('ability4').innerHTML = "<button href='#' onclick='changeAbility("+ ability4 +")'>" + ability4.replace(/"/g, " ").replace(/_/g, ' ') + "</button>"
 
+    // get audio
     var audio = document.getElementById('audioPlayer')
 
     audio.src = champAudio[Math.floor(Math.random() * champAudio.length)];
 
-    console.log(audio.src)
-
     audio.play()
 
+    // reset pins each load (change champ)
     mainPinGroup.clearLayers();
     childPinGroup.clearLayers();
     loadPins();
@@ -167,8 +169,11 @@ function loadPins(){
     }
 }
 
+// callout enabler to flip each time button pressed
 function calloutEnabler(){
+    
     calloutsImage = document.getElementById('mapImg2');
+
     if (calloutState == true){
         calloutState = false;
         calloutsImage.className = 'fade-out';
@@ -192,38 +197,7 @@ var childPinGroup = L.layerGroup().addTo(map);
 
 var bounds = [[0,0], [4096,4096]];
 
-// test pin
-//var sol = L.marker([ 0, 0 ]).addTo(map);
-//sol.bindPopup('<iframe src="https://www.youtube.com/embed/dr1r8zp75XA" width="500" height="315" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>', {keepInView: false,autoPan: false,closeButton: false,maxWidth: 1000}).openPopup();
-
 // load in pins 
 loadPins();
 
 map.fitBounds(bounds);
-
-map.on('click', 
-function(e){
-    if (drawingPins){
-        var coord = e.latlng.toString().split(',');
-         var lat = coord[0].split('(');
-         var lng = coord[1].split(')');
-
-         alert("You clicked the map at LAT: " + lat[1] + " and LONG: " + lng[0]);
-
-         if (document.getElementById("pinType").value == "Child Pin"){
-            newMarker = L.marker(e.latlng, {draggable: true, icon: new LineupIcon({iconUrl: "./img/abilityIcons/pinImg.png" })}).addTo(childPinGroup);
-         }
-         else {
-            newMarker = L.marker(e.latlng, {draggable: true, icon: new ValorantIcon({iconUrl: "./img/abilityIcons/" + document.getElementById("abilities").value + ".webp" })}).addTo(mainPinGroup);
-        }
-         newMarker.on('dragend', function() {
-			var coord = String(newMarker.getLatLng()).split(',');
-			//console.log(coord);
-			var lat = coord[0].split('(');
-			//console.log(lat);
-			var lng = coord[1].split(')');
-			//console.log(lng);
-            newMarker.bindPopup("Moved to: " + lat[1] + ", " + lng[0] + ".");
-		});
-    }
-     });
